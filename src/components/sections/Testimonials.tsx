@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
+import { Quote } from 'lucide-react';
 
 const testimonials = [
   {
@@ -23,14 +23,19 @@ const testimonials = [
 export function Testimonials() {
   const [current, setCurrent] = useState(0);
 
-  const next = () => setCurrent((prev) => (prev + 1) % testimonials.length);
-  const prev = () => setCurrent((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % testimonials.length);
+    }, 7000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <section className="py-32 bg-white/80 backdrop-blur-xl text-zinc-950 relative flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-500/15 blur-[100px] rounded-full pointer-events-none" />
-      
+
       <div className="max-w-4xl mx-auto px-6 relative z-10 text-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.5, rotate: -180 }}
@@ -38,7 +43,7 @@ export function Testimonials() {
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <Quote className="w-16 h-16 text-brand-500/50 mx-auto mb-12" />
+          <Quote className="w-16 h-16 text-brand-500/50 mx-auto mb-16" />
         </motion.div>
 
         <div className="h-[200px] flex items-center justify-center">
@@ -69,31 +74,6 @@ export function Testimonials() {
             </motion.div>
           </AnimatePresence>
         </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
-          className="mt-16 flex items-center justify-center gap-4"
-        >
-          <motion.button
-            onClick={prev}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            className="w-12 h-12 rounded-full border border-zinc-300 bg-white/50 backdrop-blur-sm flex items-center justify-center text-zinc-600 hover:text-brand-500 hover:border-brand-500 transition-colors"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </motion.button>
-          <motion.button
-            onClick={next}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            className="w-12 h-12 rounded-full border border-zinc-300 bg-white/50 backdrop-blur-sm flex items-center justify-center text-zinc-600 hover:text-brand-500 hover:border-brand-500 transition-colors"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </motion.button>
-        </motion.div>
       </div>
     </section>
   );

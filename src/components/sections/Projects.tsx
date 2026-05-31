@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform } from 'motion/react';
-import { useRef } from 'react';
-import { ArrowUpRight } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { ArrowUpRight, Volume2, VolumeX, Play, Pause } from 'lucide-react';
 
 const projects = [
   {
@@ -38,6 +38,15 @@ const projects = [
     category: 'Web Design • Figma',
     image: '/projectimage2.webp',
     color: 'from-cyan-500/20 to-blue-500/20',
+  },
+  {
+    title: 'Project Showcase',
+    category: 'Video • Motion',
+    video: '/projectres.webm',
+    color: 'from-rose-500/20 to-orange-500/20',
+    hasSound: true,
+    normalDisplay: true,
+    vertical: true,
   },
 ];
 
@@ -80,6 +89,9 @@ export function Projects() {
 
 function ProjectCard({ project, index, key }: { project: any; index: number; key?: number | string }) {
   const ref = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isMuted, setIsMuted] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"]
@@ -88,6 +100,24 @@ function ProjectCard({ project, index, key }: { project: any; index: number; key
   const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.05, 1]);
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !isMuted;
+      setIsMuted(!isMuted);
+    }
+  };
+
+  const togglePlay = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
 
   return (
     <motion.div
@@ -108,27 +138,89 @@ function ProjectCard({ project, index, key }: { project: any; index: number; key
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: index * 0.1 + 0.2 }}
           whileHover={{ scale: 1.02 }}
-          className={`md:col-span-8 overflow-hidden rounded-3xl bg-zinc-100 relative aspect-video shadow-xl ${index % 2 === 1 ? 'md:order-2' : ''}`}
+          className={`md:col-span-8 overflow-hidden rounded-3xl bg-zinc-100 relative ${project.vertical ? 'aspect-[9/16] max-w-md mx-auto' : 'aspect-video'} shadow-xl ${index % 2 === 1 ? 'md:order-2' : ''}`}
         >
-          <motion.div style={{ y, scale }} className="w-full h-[120%] -mt-[10%]">
-             {project.video ? (
-               <video
-                src={project.video}
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="w-full h-full object-cover"
-              />
-             ) : (
-               <img
+          {project.video ? (
+            <div className="relative w-full h-full">
+              {project.normalDisplay ? (
+                <motion.video
+                  ref={project.hasSound ? videoRef : undefined}
+                  src={project.video}
+                  autoPlay={false}
+                  muted={project.hasSound ? isMuted : true}
+                  loop
+                  playsInline
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: index * 0.1 + 0.3 }}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <motion.div style={{ y, scale }} className="w-full h-[120%] -mt-[10%]">
+                  <video
+                    ref={project.hasSound ? videoRef : undefined}
+                    src={project.video}
+                    autoPlay
+                    muted={project.hasSound ? isMuted : true}
+                    loop
+                    playsInline
+                    className="w-full h-full object-cover"
+                  />
+                </motion.div>
+              )}
+              {project.normalDisplay && !isPlaying && (
+                <motion.button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    togglePlay();
+                  }}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  className="absolute inset-0 flex items-center justify-center transition-all z-10"
+                >
+                  <div className="w-16 h-16 rounded-full bg-white/90 hover:bg-white flex items-center justify-center transition-all shadow-lg">
+                    <Play className="w-8 h-8 text-zinc-950 ml-1" />
+                  </div>
+                </motion.button>
+              )}
+              {project.normalDisplay && isPlaying && (
+                <motion.button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    togglePlay();
+                  }}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  className="absolute bottom-4 left-4 w-10 h-10 rounded-full bg-black/50 hover:bg-black/70 backdrop-blur-sm flex items-center justify-center text-white transition-all z-10"
+                >
+                  <Pause className="w-5 h-5" />
+                </motion.button>
+              )}
+              {project.hasSound && (
+                <motion.button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleMute();
+                  }}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-black/50 hover:bg-black/70 backdrop-blur-sm flex items-center justify-center text-white transition-all z-10"
+                >
+                  {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+                </motion.button>
+              )}
+            </div>
+          ) : (
+            <motion.div style={{ y, scale }} className="w-full h-[120%] -mt-[10%]">
+              <img
                 src={project.image}
                 alt={project.title}
                 loading="lazy"
                 className="w-full h-full object-cover"
               />
-             )}
-          </motion.div>
+            </motion.div>
+          )}
         </motion.div>
 
         {/* Content */}

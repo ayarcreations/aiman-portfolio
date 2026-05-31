@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { Mail, MessageSquare, ArrowUpRight } from 'lucide-react';
+import { Mail, MessageSquare } from 'lucide-react';
 
 export function Contact() {
   return (
@@ -71,12 +71,6 @@ export function Contact() {
                     <p className="font-medium text-sm md:text-base">aldawladeveloper@gmail.com</p>
                   </div>
                 </div>
-                <motion.div
-                  whileHover={{ x: 4 }}
-                  className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/5 group-hover:bg-zinc-950 flex items-center justify-center text-white transition-colors"
-                >
-                  <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5" />
-                </motion.div>
               </motion.a>
 
               <motion.a

@@ -68,7 +68,7 @@ export function Services() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-4xl md:text-5xl font-display font-bold text-zinc-950 leading-tight"
           >
-            Premium Solutions for Modern Brands
+            Premium Solution for Businesses
           </motion.h3>
         </div>
 
