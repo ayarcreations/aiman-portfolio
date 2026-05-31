@@ -107,10 +107,10 @@ export default function App() {
       {!isReady && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-white text-zinc-950 px-6">
           <div className="w-full max-w-md space-y-8 text-center">
-            <img src="/logo.png" alt="Logo" className="mx-auto w-28 h-28 object-contain" />
+            <img src="/logoupper.png" alt="Logo" className="mx-auto w-40 h-40 object-contain" />
             <div>
               <p className="text-xs uppercase tracking-[0.4em] text-zinc-400 mb-4">Loading portfolio</p>
-              <div className="rounded-full bg-zinc-200 h-3 overflow-hidden">
+              <div className="rounded-full bg-zinc-200 h-2 overflow-hidden max-w-md mx-auto">
                 <div
                   className="h-full rounded-full bg-gradient-to-r from-brand-500 via-brand-400 to-brand-300 transition-all duration-300"
                   style={{ width: `${progress}%` }}
