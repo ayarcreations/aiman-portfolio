@@ -90,6 +90,8 @@ export function HeroFrameSequence() {
       render();
     }
 
+    const scrollEnd = isMobile ? '+=150%' : '+=200%';
+
     const st = gsap.to(airpods, {
       frame: frameCount - 1,
       snap: 'frame',
@@ -97,7 +99,7 @@ export function HeroFrameSequence() {
       scrollTrigger: {
         trigger: containerRef.current,
         start: 'top top',
-        end: '+=200%',
+        end: scrollEnd,
         scrub: 0.5,
       },
       onUpdate: render, // use GSAP onUpdate
