@@ -91,7 +91,7 @@ export function Contact() {
                   </motion.div>
                   <div className="text-left">
                     <p className="text-xs uppercase tracking-wider opacity-70 mb-1 hidden sm:block">WhatsApp</p>
-                    <p className="font-medium text-sm md:text-base">+967783231711</p>
+                    <p className="font-medium text-sm md:text-base">Whatsapp</p>
                   </div>
                 </div>
               </motion.a>
