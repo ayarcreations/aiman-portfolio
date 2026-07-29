@@ -74,7 +74,7 @@ export function Contact() {
               </motion.a>
 
               <motion.a
-                href="https://wa.me/905343608690"
+                href="https://wa.me/967783231711"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.02, y: -4 }}
@@ -91,7 +91,7 @@ export function Contact() {
                   </motion.div>
                   <div className="text-left">
                     <p className="text-xs uppercase tracking-wider opacity-70 mb-1 hidden sm:block">WhatsApp</p>
-                    <p className="font-medium text-sm md:text-base">+905343608690</p>
+                    <p className="font-medium text-sm md:text-base">+967783231711</p>
                   </div>
                 </div>
               </motion.a>
